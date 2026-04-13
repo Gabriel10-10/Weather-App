@@ -1,0 +1,16 @@
+# Local .terraform folder (providers and plugins)
+**/.terraform/*
+
+# State files (These belong in Azure, not GitHub!)
+*.tfstate
+*.tfstate.*
+
+# Terraform plan files
+*.tfplan
+
+# Sensitive variable files
+*.tfvars
+*.tfvars.json
+
+# MacOS system files
+.DS_Store

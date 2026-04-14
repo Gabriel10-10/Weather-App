@@ -2,8 +2,8 @@ terraform {
   required_version = ">= 1.5.0"
   
   backend "azurerm" {
-    resource_group_name  = "your-lab-rg-name"      # Change this to yours
-    storage_account_name = "your-lab-storage-name" # Change this to yours
+    resource_group_name  = "cst8918-final-project-rg"
+    storage_account_name = "finalprojectst"
     container_name       = "tfstate"
     key                  = "final-project.tfstate"
   }

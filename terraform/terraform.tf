@@ -1,9 +1,9 @@
 terraform {
-  required_version = "~> 1.5"
-
+  required_version = ">= 1.5.0"
+  
   backend "azurerm" {
-    resource_group_name  = "ramy-cst8918-tf-backend" # Use the RG from your lab
-    storage_account_name = "ramy8918tfstorage2026"  # Use the SA from your lab
+    resource_group_name  = "your-lab-rg-name"      # Change this to yours
+    storage_account_name = "your-lab-storage-name" # Change this to yours
     container_name       = "tfstate"
     key                  = "final-project.tfstate"
   }
@@ -11,7 +11,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.96.0"
+      version = "~> 3.0"
     }
   }
 }

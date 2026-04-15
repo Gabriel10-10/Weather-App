@@ -1,12 +1,21 @@
-resource "azurerm_resource_group" "main" {
-  name     = var.rg_name
-  location = var.location
+# 1. Networking Module
+module "networking" {
+  source              = "./modules/networking"
+  resource_group_name = "cst8918-final-project-group-2"
+  location            = "canadacentral"
+  vnet_name           = "final-project-vnet"
+  address_space       = ["10.0.0.0/14"]
 }
 
-resource "azurerm_storage_account" "state" {
-  name                     = var.storage_name
-  resource_group_name      = azurerm_resource_group.main.name
-  location                 = azurerm_resource_group.main.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
+# 2. Member C's AKS Module
+module "aks" {
+  source              = "./modules/aks"
+  resource_group_name = "cst8918-final-project-group-2"
+  location            = "canadacentral"
+  subnet_id           = module.networking.prod_subnet_id 
+}
+
+# --- OUTPUTS ---
+output "networking_prod_subnet_id" {
+  value = module.networking.prod_subnet_id
 }

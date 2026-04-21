@@ -16,9 +16,16 @@ resource "azurerm_kubernetes_cluster" "akscluster" {
     vnet_subnet_id      = var.subnet_id
   }
 
-  oidc_issuer_enabled = true
+  oidc_issuer_enabled               = true
+  role_based_access_control_enabled = true
+
+  api_server_access_profile {
+    authorized_ip_ranges = ["0.0.0.0/0"]
+  }
+
   network_profile {
     network_plugin = "azure"
+    network_policy = "azure"
     service_cidr   = "10.100.0.0/16"
     dns_service_ip = "10.100.0.10"
   }

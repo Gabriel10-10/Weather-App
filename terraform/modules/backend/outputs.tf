@@ -1,3 +1,7 @@
-output "networking_prod_subnet_id" {
-  value = module.networking.prod_subnet_id
+output "storage_account_name" {
+  value = azurerm_storage_account.tfstate.name
+}
+
+output "container_name" {
+  value = azurerm_storage_container.tfstate.name
 }

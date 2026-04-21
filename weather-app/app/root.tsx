@@ -12,7 +12,7 @@ import {
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
-// test comment
+// Triggering build
 export default function App() {
   return (
     <html lang="en">

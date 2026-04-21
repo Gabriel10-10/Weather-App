@@ -4,7 +4,7 @@ variable "resource_group_name" {
   default     = "cst8918-final-project-group-2"
 }
 
-variable "location" {
+variable "region" {
   description = "Azure region where all resources will be deployed"
   type        = string
   default     = "canadacentral"
@@ -21,3 +21,5 @@ variable "address_space" {
   type        = list(string)
   default     = ["10.0.0.0/14"]
 }
+
+

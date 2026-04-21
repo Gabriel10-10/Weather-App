@@ -1,17 +1,17 @@
 # Test AKS Cluster
 resource "azurerm_kubernetes_cluster" "akscluster" {
-  name = "test-cluster"
-  location = var.location
+  name                = "test-cluster"
+  location            = var.location
   resource_group_name = var.rg_name
-  kubernetes_version = "1.34.4"
-  dns_prefix = "test-dns" 
+  kubernetes_version  = "1.34.4"
+  dns_prefix          = "test-dns"
 
   default_node_pool {
-    name = "default"
-    vm_size = "Standard_B2s"
-    node_count = 1
+    name                = "default"
+    vm_size             = "Standard_B2s"
+    node_count          = 1
     enable_auto_scaling = false
-    vnet_subnet_id = var.subnet_id 
+    vnet_subnet_id      = var.subnet_id
   }
   oidc_issuer_enabled = true
   network_profile {
@@ -27,11 +27,11 @@ resource "azurerm_kubernetes_cluster" "akscluster" {
 
 # Azure Redis Cache
 resource "azurerm_redis_cache" "redis_cache" {
-  name = "testenv-redis-cache"
-  location = var.location
+  name                = "testenv-redis-cache"
+  location            = var.location
   resource_group_name = var.rg_name
-  capacity = 0
-  family = "C"
-  sku_name = "Basic"
-  
+  capacity            = 0
+  family              = "C"
+  sku_name            = "Basic"
+
 }

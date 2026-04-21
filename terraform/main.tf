@@ -1,7 +1,7 @@
 # --- 1. RESOURCE GROUP ---
 resource "azurerm_resource_group" "project_rg" {
-  name     = "cst8918-final-project-group-2"
-  location = "canadacentral"
+  name     = var.resource_group_name
+  location = var.region
 }
 
 # --- 2. NETWORKING MODULE ---
@@ -9,8 +9,8 @@ module "networking" {
   source              = "./modules/networking"
   resource_group_name = azurerm_resource_group.project_rg.name
   location            = azurerm_resource_group.project_rg.location
-  vnet_name           = "final-project-vnet"
-  address_space       = ["10.0.0.0/14"]
+  vnet_name           = var.vnet_name
+  address_space       = var.address_space
 }
 
 # --- 3. CONTAINER REGISTRY (ACR) ---

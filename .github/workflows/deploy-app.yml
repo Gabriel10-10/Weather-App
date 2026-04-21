@@ -1,0 +1,82 @@
+name: Deploy Weather App
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'weather-app/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'weather-app/**'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-test:
+    name: Deploy to Test AKS
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get AKS Credentials (Test)
+        run: |
+          az aks get-credentials \
+            --resource-group cst8918-final-project-group-2 \
+            --name test-cluster \
+            --overwrite-existing
+
+      - name: Create namespace if not exists
+        run: kubectl apply -f weather-app/k8s/namespace.yaml
+
+      - name: Deploy to Test
+        run: |
+          IMAGE=cst8918group2acr.azurecr.io/weather-app:${{ github.sha }}
+          sed "s|\$IMAGE|${IMAGE}|g" weather-app/k8s/deployment.yaml | kubectl apply -f -
+          kubectl apply -f weather-app/k8s/service.yaml
+
+  deploy-prod:
+    name: Deploy to Production AKS
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get AKS Credentials (Prod)
+        run: |
+          az aks get-credentials \
+            --resource-group cst8918-final-project-group-2 \
+            --name prod-cluster \
+            --overwrite-existing
+
+      - name: Create namespace if not exists
+        run: kubectl apply -f weather-app/k8s/namespace.yaml
+
+      - name: Deploy to Production
+        run: |
+          IMAGE=cst8918group2acr.azurecr.io/weather-app:${{ github.sha }}
+          sed "s|\$IMAGE|${IMAGE}|g" weather-app/k8s/deployment.yaml | kubectl apply -f -
+          kubectl apply -f weather-app/k8s/service.yaml

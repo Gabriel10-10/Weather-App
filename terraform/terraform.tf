@@ -1,15 +1,12 @@
 terraform {
   required_version = ">= 1.5.0"
 
-  # BACKEND IS COMMENTED OUT UNTIL RG IS CREATED
-  /*
   backend "azurerm" {
-    resource_group_name  = "cst8918-final-project-rg"
-    storage_account_name = "finalprojectst"
+    resource_group_name  = "cst8918-final-project-group-2"
+    storage_account_name = "ramytfstate1h4mp4" # Use the name from your logs!
     container_name       = "tfstate"
     key                  = "final-project.tfstate"
   }
-  */
 
   required_providers {
     azurerm = {

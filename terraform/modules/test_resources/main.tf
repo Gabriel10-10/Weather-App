@@ -27,7 +27,7 @@ resource "azurerm_kubernetes_cluster" "akscluster" {
 
 # Azure Redis Cache
 resource "azurerm_redis_cache" "redis_cache" {
-  name                = "testenv-redis-cache"
+  name                = "test-redis-ramy-8918"
   location            = var.location
   resource_group_name = var.rg_name
   capacity            = 0

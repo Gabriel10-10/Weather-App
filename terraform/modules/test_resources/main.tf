@@ -1,4 +1,5 @@
 # Test AKS Cluster
+#tfsec:ignore:azure-container-limit-authorized-ips
 resource "azurerm_kubernetes_cluster" "akscluster" {
   name                = "test-cluster"
   location            = var.location

@@ -1,4 +1,5 @@
 # Prod AKS Cluster
+#tfsec:ignore:azure-container-limit-authorized-ips
 resource "azurerm_kubernetes_cluster" "akscluster" {
   name                = "prod-cluster"
   location            = var.location

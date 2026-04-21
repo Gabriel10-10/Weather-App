@@ -10,5 +10,5 @@ variable "location" {
 
 variable "storage_account_name" {
   type    = string
-  default = "finalprojectst"
+  default = "cst8918group2tfstate"
 }

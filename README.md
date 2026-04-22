@@ -112,11 +112,11 @@ Remote state is stored in an Azure Storage Account. Ensure the backend config in
 
 ## Workflow Screenshots
 
-![Terraform Static Analysis](./docs/screenshots/terraform-static-analysis.png)
-![Terraform Plan](./docs/screenshots/terraform-plan.png)
-![Terraform Apply](./docs/screenshots/terraform-apply.png)
-![Docker Build & Push](./docs/screenshots/docker-build-push.png)
-![Deploy to AKS](./docs/screenshots/deploy-aks.png)
+[Actions workflows]<img width="1920" height="939" alt="Screenshot 2026-04-22 at 10 23 29 AM" src="https://github.com/user-attachments/assets/dc98a47e-a93d-43f9-a50f-c5b3c540b6cf" />
+
+[AKS LoadBalancer External IP]<img width="944" height="371" alt="image" src="https://github.com/user-attachments/assets/df867271-c2c4-409a-aa70-8b866e2b6204" />
+
+[Test Environment]<img width="1264" height="930" alt="image (2)" src="https://github.com/user-attachments/assets/454e9308-70d4-44ce-8e04-d5d6ec947e77" />
 
 ---
 

@@ -1,10 +1,10 @@
-# ☁️ Remix Weather App — Cloud DevOps Pipeline
+# Remix Weather App — Cloud DevOps Pipeline
 
 A fully automated CI/CD pipeline for deploying a Remix-based Weather Application to Azure Kubernetes Service (AKS), using Terraform for infrastructure-as-code and GitHub Actions for all automation.
 
 ---
 
-## 👥 Team Members
+## Team Members
 
 | Name | GitHub |
 |------|--------|
@@ -15,7 +15,7 @@ A fully automated CI/CD pipeline for deploying a Remix-based Weather Application
 
 ---
 
-## 📋 Project Overview
+## Project Overview
 
 This project provisions and deploys a containerized Remix Weather Application using a fully automated GitHub Actions CI/CD pipeline. Infrastructure is managed with Terraform and hosted on Azure (AKS + ACR).
 
@@ -30,7 +30,7 @@ This project provisions and deploys a containerized Remix Weather Application us
 
 ---
 
-## 🔁 GitHub Actions Workflows
+## GitHub Actions Workflows
 
 ### 1. `terraform-static-analysis.yml` — Static Code Analysis
 **Trigger:** Push to any branch
@@ -75,7 +75,7 @@ Deploys the tagged Docker image to the appropriate AKS namespace using `kubectl`
 
 ---
 
-## 🛠️ Prerequisites & Setup
+## Prerequisites & Setup
 
 ### Required GitHub Secrets
 
@@ -100,7 +100,7 @@ Remote state is stored in an Azure Storage Account. Ensure the backend config in
 
 ---
 
-## 🚀 Running the Pipeline
+## Running the Pipeline
 
 1. **Open a PR** to `main` — triggers static analysis, tflint, terraform plan, Docker build, and test deployment
 2. **Merge the PR** — triggers terraform apply and production deployment
@@ -110,7 +110,7 @@ Remote state is stored in an Azure Storage Account. Ensure the backend config in
 
 ---
 
-## 📸 Workflow Screenshots
+## Workflow Screenshots
 
 ![Terraform Static Analysis](./docs/screenshots/terraform-static-analysis.png)
 ![Terraform Plan](./docs/screenshots/terraform-plan.png)
@@ -120,7 +120,7 @@ Remote state is stored in an Azure Storage Account. Ensure the backend config in
 
 ---
 
-## 🧹 Clean Up
+## Clean Up
 
 Once you have submitted your project, delete all Azure resources to avoid overuse charges:
 
@@ -138,7 +138,7 @@ az group delete --name <your-resource-group> --yes --no-wait
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 .

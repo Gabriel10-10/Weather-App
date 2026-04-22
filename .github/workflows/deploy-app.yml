@@ -43,6 +43,14 @@ jobs:
       - name: Create namespace if not exists
         run: kubectl apply -f weather-app/k8s/namespace.yaml
 
+      - name: Create K8s secret
+        run: |
+          kubectl create secret generic weather \
+            --namespace cst8918 \
+            --from-literal=api-key=${{ secrets.WEATHER_API_KEY }} \
+            --from-literal=redis-url=${{ secrets.REDIS_URL_TEST }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Deploy to Test
         run: |
           IMAGE=cst8918group2acr.azurecr.io/weather-app:${{ github.sha }}
@@ -75,6 +83,14 @@ jobs:
       - name: Create namespace if not exists
         run: kubectl apply -f weather-app/k8s/namespace.yaml
 
+      - name: Create K8s secret
+        run: |
+          kubectl create secret generic weather \
+            --namespace cst8918 \
+            --from-literal=api-key=${{ secrets.WEATHER_API_KEY }} \
+            --from-literal=redis-url=${{ secrets.REDIS_URL_PROD }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+            
       - name: Deploy to Production
         run: |
           IMAGE=cst8918group2acr.azurecr.io/weather-app:${{ github.sha }}

@@ -1,32 +1,17 @@
 # Remix Weather App — Cloud DevOps Pipeline
 
-A fully automated CI/CD pipeline for deploying a Remix-based Weather Application to Azure Kubernetes Service (AKS), using Terraform for infrastructure-as-code and GitHub Actions for all automation.
+A fully automated CI/CD pipeline for deploying a containerized Remix Weather Application to Azure Kubernetes Service (AKS), with Terraform managing all infrastructure as code and GitHub Actions driving every stage of the pipeline.
 
 ---
 
-## Team Members
-
-| Name | GitHub |
-|------|--------|
-| Ahmed Boudouh | [@AhmedBoudouh](https://github.com/AhmedBoudouh) |
-| Soufiane Mouss | [@SoufianeMouss](https://github.com/SoufianeMouss) |
-| Damis Gabriel Manfouo | [@Gabriel10-10](https://github.com/Gabriel10-10) |
-| Ramy Maarouf | [@RamyMaarouf](https://github.com/RamyMaarouf) |
-
----
-
-## Project Overview
-
-This project provisions and deploys a containerized Remix Weather Application using a fully automated GitHub Actions CI/CD pipeline. Infrastructure is managed with Terraform and hosted on Azure (AKS + ACR).
-
-### Key Capabilities
+## Key Capabilities
 
 - **Terraform IaC** — Provisions Azure infrastructure (AKS cluster, ACR, networking)
 - **Static Analysis** — `fmt`, `validate`, and `tfsec` run on every push
 - **Linting & Planning** — `tflint` and `terraform plan` run on pull requests to `main`
 - **Apply on Merge** — `terraform apply` runs automatically when PRs merge to `main`
-- **Docker Build & Push** — Weather App image is built and pushed to ACR on PR (tagged with commit SHA)
-- **AKS Deployment** — App deploys to **test** on PR, **production** on merge to `main`
+- **Docker Build & Push** — App image built and pushed to ACR, tagged with commit SHA
+- **AKS Deployment** — Deploys to **test** on PR, **production** on merge to `main`
 
 ---
 
@@ -35,12 +20,9 @@ This project provisions and deploys a containerized Remix Weather Application us
 ### 1. `terraform-static-analysis.yml` — Static Code Analysis
 **Trigger:** Push to any branch
 
-Runs the following checks against all Terraform code:
 - `terraform fmt` — enforces formatting standards
 - `terraform validate` — checks configuration validity
 - `tfsec` — scans for security misconfigurations
-
----
 
 ### 2. `terraform-plan.yml` — Lint & Plan
 **Trigger:** Pull request to `main`
@@ -48,38 +30,28 @@ Runs the following checks against all Terraform code:
 - `tflint` — lints Terraform files for best practices and provider-specific rules
 - `terraform plan` — previews infrastructure changes before merge
 
----
-
 ### 3. `terraform-apply.yml` — Apply Infrastructure
-**Trigger:** Push to `main` (i.e., merged pull request)
+**Trigger:** Push to `main` (merged pull request)
 
 - Runs `terraform apply -auto-approve` to provision or update Azure infrastructure
-
----
 
 ### 4. `docker-build-push.yml` — Build & Push Docker Image
 **Trigger:** Pull request to `main`, only when application code changes (`app/**`)
 
-- Builds the Remix Weather App Docker image
-- Pushes the image to Azure Container Registry (ACR)
+- Builds the Docker image and pushes it to Azure Container Registry (ACR)
 - Tags the image with the commit SHA (e.g., `weatherapp:abc1234`)
 
----
-
 ### 5. `deploy.yml` — Deploy to AKS
-**Trigger:** Application code changes only (`app/**`)
-- **Test environment** → on pull request to `main`
-- **Production environment** → on push to `main` (merged PR)
+**Trigger:** Application code changes (`app/**`) only
 
-Deploys the tagged Docker image to the appropriate AKS namespace using `kubectl`.
+- **Test environment** → on pull request to `main`
+- **Production environment** → on push to `main`
 
 ---
 
-## Prerequisites & Setup
+## Setup
 
 ### Required GitHub Secrets
-
-Configure the following secrets in your repository (`Settings → Secrets and variables → Actions`):
 
 | Secret | Description |
 |--------|-------------|
@@ -96,7 +68,7 @@ Configure the following secrets in your repository (`Settings → Secrets and va
 
 ### Terraform Backend
 
-Remote state is stored in an Azure Storage Account. Ensure the backend config in `terraform/` points to your storage account and container before running any workflows.
+Remote state is stored in an Azure Storage Account. Update the backend config in `terraform/` to point to your storage account and container before running any workflows.
 
 ---
 
@@ -104,36 +76,33 @@ Remote state is stored in an Azure Storage Account. Ensure the backend config in
 
 1. **Open a PR** to `main` — triggers static analysis, tflint, terraform plan, Docker build, and test deployment
 2. **Merge the PR** — triggers terraform apply and production deployment
-3. **Push directly to any branch** — triggers static analysis only
+3. **Push to any branch** — triggers static analysis only
 
-> All workflows are path-filtered where applicable so that infrastructure-only changes don't trigger app deployments and vice versa.
-
----
-
-## Workflow Screenshots
-
-[Actions workflows]<img width="1920" height="939" alt="Screenshot 2026-04-22 at 10 23 29 AM" src="https://github.com/user-attachments/assets/dc98a47e-a93d-43f9-a50f-c5b3c540b6cf" />
-
-[AKS LoadBalancer External IP]<img width="944" height="371" alt="image" src="https://github.com/user-attachments/assets/df867271-c2c4-409a-aa70-8b866e2b6204" />
-
-[Test Environment]<img width="1264" height="930" alt="image (2)" src="https://github.com/user-attachments/assets/454e9308-70d4-44ce-8e04-d5d6ec947e77" />
+> Workflows are path-filtered so infrastructure-only changes do not trigger app deployments and vice versa.
 
 ---
 
-## Clean Up
+## Screenshots
 
-Once you have submitted your project, delete all Azure resources to avoid overuse charges:
+**Actions workflows**
+
+![Actions workflows](https://github.com/user-attachments/assets/dc98a47e-a93d-43f9-a50f-c5b3c540b6cf)
+
+**AKS LoadBalancer External IP**
+
+![AKS LoadBalancer](https://github.com/user-attachments/assets/df867271-c2c4-409a-aa70-8b866e2b6204)
+
+**Test Environment**
+
+![Test Environment](https://github.com/user-attachments/assets/454e9308-70d4-44ce-8e04-d5d6ec947e77)
+
+---
+
+## Cleanup
 
 ```bash
-# Destroy all Terraform-managed resources
 cd terraform/
 terraform destroy -auto-approve
-```
-
-Or delete the resource group directly from the Azure Portal / CLI:
-
-```bash
-az group delete --name <your-resource-group> --yes --no-wait
 ```
 
 ---
@@ -149,12 +118,12 @@ az group delete --name <your-resource-group> --yes --no-wait
 │       ├── terraform-apply.yml
 │       ├── docker-build-push.yml
 │       └── deploy.yml
-├── app/                  # Remix Weather Application source
-├── terraform/            # Terraform infrastructure code
-├── k8s/                  # Kubernetes manifests (test + prod)
+├── app/          # Remix Weather Application source
+├── terraform/    # Terraform infrastructure code
+├── k8s/          # Kubernetes manifests (test + prod)
 └── README.md
 ```
 
----
+## Tech Stack
 
-*CST8918 — DevOps: Infrastructure as Code | Algonquin College*
+`Terraform` `GitHub Actions` `Docker` `Azure Kubernetes Service` `Azure Container Registry` `tfsec` `tflint` `Remix` `Node.js`

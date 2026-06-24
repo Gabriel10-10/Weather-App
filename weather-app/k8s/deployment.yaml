@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        app: weather-app
+        app: weather-app 
     spec:
       containers:
         - name: weather-app-container
